@@ -1,0 +1,81 @@
+import difflib
+
+# ============================
+#  BASIS PENGETAHUAN NUSANTARA
+# ============================
+knowledge = {
+    "apa ibu kota indonesia": "Ibu kota Indonesia saat ini adalah Nusantara.",
+    "dimana lokasi ibu kota nusantara": "Ibu kota Nusantara terletak di Penajam Paser Utara, Kalimantan Timur.",
+    "apa rumah adat toraja": "Rumah adat Toraja disebut Tongkonan.",
+    "apa rumah adat jawa": "Rumah adat Jawa disebut Rumah Joglo.",
+    "apa rumah adat sumatera barat": "Rumah adat Minangkabau disebut Rumah Gadang.",
+    "apa tarian dari bali": "Tarian terkenal dari Bali adalah Tari Kecak.",
+    "apa tarian dari aceh": "Tarian dari Aceh yang terkenal adalah Tari Saman.",
+    "apa tarian dari jawa tengah": "Tarian dari Jawa Tengah yang terkenal adalah Tari Gambyong.",
+    "siapa pendiri kerajaan majapahit": "Pendiri Kerajaan Majapahit adalah Raden Wijaya pada tahun 1293.",
+    "apa kerajaan terbesar di nusantara": "Kerajaan Majapahit dianggap sebagai salah satu kerajaan terbesar di Nusantara.",
+    "apa makanan khas padang": "Makanan khas Padang yang sangat terkenal adalah Rendang.",
+    "apa makanan khas jawa barat": "Makanan khas Jawa Barat adalah Surabi, Batagor, dan Nasi Timbel.",
+    "apa makanan khas bali": "Makanan khas Bali adalah Ayam Betutu.",
+    "dimana letak candi borobudur": "Candi Borobudur terletak di Magelang, Jawa Tengah.",
+    "dimana letak candi prambanan": "Candi Prambanan terletak di Sleman, Yogyakarta.",
+    "gunung tertinggi di indonesia": "Gunung tertinggi di Indonesia adalah Puncak Jaya (Carstensz Pyramid) di Papua.",
+    "laut terbesar di indonesia": "Laut terbesar di Indonesia adalah Laut Jawa.",
+    "apa semboyan negara indonesia": "Semboyan Indonesia adalah Bhinneka Tunggal Ika.",
+    "apa lagu kebangsaan indonesia": "Lagu kebangsaan Indonesia adalah Indonesia Raya.",
+    "apa nama pulau terbesar di indonesia": "Pulau terbesar di Indonesia adalah Kalimantan.",
+    "berapa jumlah provinsi di indonesia": "Jumlah provinsi di Indonesia adalah 38 provinsi.",
+    "apa senjata tradisional aceh": "Senjata tradisional Aceh adalah Rencong.",
+    "apa senjata tradisional betawi": "Senjata tradisional Betawi adalah Golok.",
+    "siapa presiden pertama indonesia": "Presiden pertama Indonesia adalah Ir. Soekarno.",
+    "siapa proklamator indonesia": "Proklamator Indonesia adalah Ir. Soekarno dan Drs. Mohammad Hatta."
+}
+
+# ============================
+#  FUNGSI CHATBOT
+# ============================
+
+def answer_rule_based(question):
+    question = question.lower()
+    for key in knowledge:
+        if key in question:
+            return knowledge[key]
+    return None
+
+def answer_similarity(question):
+    keys = list(knowledge.keys())
+    match = difflib.get_close_matches(question.lower(), keys, n=1, cutoff=0.4)
+    if match:
+        return knowledge[match[0]]
+    return None
+
+def chatbot(question):
+    # 1. Rule-based
+    rb = answer_rule_based(question)
+    if rb:
+        return rb
+
+    # 2. Similarity fallback
+    sim = answer_similarity(question)
+    if sim:
+        return sim
+
+    # 3. Tidak ada jawaban
+    return "Maaf, saya belum memiliki informasi tentang itu. Silakan coba pertanyaan lain."
+
+
+# ============================
+#  PROGRAM UTAMA
+# ============================
+
+if __name__ == "__main__":
+    print("🤖 Chatbot Nusantara — ketik 'exit' untuk keluar.\n")
+
+    while True:
+        user_q = input("Tanya seputar Nusantara: ")
+
+        if user_q.lower() in ["exit", "keluar", "quit"]:
+            print("Terima kasih telah menggunakan Chatbot Nusantara! 🙏")
+            break
+
+        print("Jawaban:", chatbot(user_q))
