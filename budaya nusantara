@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ensiklopedia Budaya Nusantara</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background: #ff5722;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #ccc;
+        }
+        select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #aaa;
+        }
+        .card {
+            background: #fafafa;
+            padding: 20px;
+            border-left: 5px solid #ff5722;
+            border-radius: 5px;
+        }
+        .title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    ENSIKLOPEDIA BUDAYA NUSANTARA
+</header>
+
+<div class="container">
+    <h3>Pilih Provinsi:</h3>
+    <select id="provinsi" onchange="tampilkanBudaya()">
+        <option value="">-- Pilih Provinsi --</option>
+        <option value="jawaTimur">Jawa Timur</option>
+        <option value="jawaBarat">Jawa Barat</option>
+        <option value="bali">Bali</option>
+        <option value="sumbar">Sumatera Barat</option>
+        <option value="ntb">Nusa Tenggara Barat</option>
+    </select>
+
+    <div id="output"></div>
+</div>
+
+<script>
+    const dataBudaya = {
+        jawaTimur: {
+            judul: "Jawa Timur",
+            isi: `
+                <ul>
+                    <li><b>Tari Remo</b> – tarian penyambutan.</li>
+                    <li><b>Ludruk</b> – teater tradisional rakyat.</li>
+                    <li><b>Makanan khas:</b> Rawon, Rujak Cingur.</li>
+                </ul>
+            `
+        },
+        jawaBarat: {
+            judul: "Jawa Barat",
+            isi: `
+                <ul>
+                    <li><b>Tari Jaipong</b></li>
+                    <li><b>Wayang Golek</b></li>
+                    <li><b>Makanan khas:</b> Seblak, Surabi.</li>
+                </ul>
+            `
+        },
+        bali: {
+            judul: "Bali",
+            isi: `
+                <ul>
+                    <li><b>Tari Kecak</b></li>
+                    <li><b>Upacara Ngaben</b></li>
+                    <li><b>Makanan khas:</b> Ayam Betutu.</li>
+                </ul>
+            `
+        },
+        sumbar: {
+            judul: "Sumatera Barat",
+            isi: `
+                <ul>
+                    <li><b>Tari Piring</b></li>
+                    <li><b>Rumah Gadang</b></li>
+                    <li><b>Makanan khas:</b> Rendang, Dendeng Balado.</li>
+                </ul>
+            `
+        },
+        ntb: {
+            judul: "Nusa Tenggara Barat",
+            isi: `
+                <ul>
+                    <li><b>Tari Gendang Beleq</b></li>
+                    <li><b>Tradisi Bau Nyale</b></li>
+                    <li><b>Makanan khas:</b> Ayam Taliwang.</li>
+                </ul>
+            `
+        }
+    };
+
+    function tampilkanBudaya() {
+        const prov = document.getElementById("provinsi").value;
+        const box = document.getElementById("output");
+
+        if (!prov) {
+            box.innerHTML = "";
+            return;
+        }
+
+        const budaya = dataBudaya[prov];
+
+        box.innerHTML = `
+            <div class="card">
+                <div class="title">${budaya.judul}</div>
+                ${budaya.isi}
+            </div>
+        `;
+    }
+</script>
+
+</body>
+</html>
