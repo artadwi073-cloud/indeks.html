@@ -1,0 +1,47 @@
+import json
+import difflib
+
+# === Load knowledge base ===
+with open("knowledge.json", "r", encoding="utf-8") as f:
+    knowledge = json.load(f)
+
+def answer_rule_based(question):
+    question = question.lower()
+    for key in knowledge:
+        if key in question:
+            return knowledge[key]
+    return None
+
+def answer_similarity(question):
+    questions_list = list(knowledge.keys())
+    match = difflib.get_close_matches(question.lower(), questions_list, n=1, cutoff=0.4)
+    if match:
+        return knowledge[match[0]]
+    return None
+
+def chatbot(question):
+    # 1. coba rule-based
+    rb = answer_rule_based(question)
+    if rb:
+        return rb
+
+    # 2. fallback ke similarity
+    sim = answer_similarity(question)
+    if sim:
+        return sim
+
+    # 3. jika tidak ditemukan
+    return "Maaf, saya belum memiliki informasi tentang itu. Coba ajukan pertanyaan lain!"
+
+# === Main loop ===
+if __name__ == "__main__":
+    print("🤖 Chatbot Nusantara — ketik 'exit' untuk keluar.\n")
+    
+    while True:
+        user_q = input("Tanya seputar Nusantara: ")
+
+        if user_q.lower() in ["exit", "keluar", "quit"]:
+            print("Terima kasih! 🙏")
+            break
+
+        print("Jawaban:", chatbot(user_q))
